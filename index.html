@@ -3,23 +3,25 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <header>
-      <link rel="stylesheet" href="style.css" />
-      <script src="app.js" defer></script>
-      <div id="logo"><img src="odd-duck.jpg" alt="oddducky pic" /></div>
-      <title>OddDucky</title>
-    </header>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="style.css" />
+    <script src="app.js" defer></script>
+    <title>OddDucky</title>
   </head>
   <body>
-    <main>
+    <header>
+      <div id="logo"><img src="odd-duck.jpg" alt="oddducky pic" /></div>
       <h1>OddDuckys</h1>
+    </header>
+    <main>
       <section>
         <img />
         <img />
         <img />
       </section>
       <div class="clicks-allowed">View Results</div>
-      <ul></ul>
+      <ul id="results"></ul>
+      <canvas id="myChart"></canvas>
     </main>
   </body>
 </html>

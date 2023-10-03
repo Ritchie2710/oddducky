@@ -2,6 +2,10 @@
 let duckysContainer = document.querySelector("section");
 let image1 = document.querySelector("section img:first-child");
 let image2 = document.querySelector("section img:nth-child(2)");
+let image3 = document.querySelector("section img:nth-child(3)");
+
+let userClicks = 0;
+let maxClicks = 25;
 
 // keep each goat in an object
 function product(name, src) {
@@ -15,7 +19,6 @@ function product(name, src) {
 function getRandomIndex() {
   return Math.floor(Math.random() * duckys.length);
 }
-console.log;
 // function to render 2 random oddduckys
 function renderduckys() {
   // get 2 rnadom indexes from our goat array
@@ -26,6 +29,7 @@ function renderduckys() {
   // prevent the two images being the same oddduckys
   while (ducks1Index === ducks2Index) {
     ducks2Index = getRandomIndex();
+    ducks3Index = getRandomIndex();
   }
 
   // change the src of our 2 images
@@ -44,6 +48,13 @@ function renderduckys() {
 
 // handle the duckys being clicked
 function handleduckClick(event) {
+  // check if the user has run out of clicks
+  if (userClicks === maxClicks) {
+    alert("You have run out of votes");
+    showresults();
+    return; // end the function here and don't run the rest
+  }
+  userClicks++;
   // get the name of the goat we just clicked
   let clickedducks = event.target.alt;
 
@@ -69,29 +80,184 @@ function handleduckClick(event) {
 }
 
 // make the goats
-const images = [
-  new product("bag", "./images/Bag.jpg"),
-  new product("banana", "./images/bananas.jpg"),
-  new product("bathroom", "./images/bathroom.jpg"),
-  new product("boots", "./images/boots.jpg"),
-  new product("breakfast", "./breakfast.jpg"),
-  new product("bublegum", "./images/bubblegum.jpg"),
-  new product("chair", "./images/chair.jpg"),
-  new product("cthulhu", "./images/sweater-goat.jpg"),
-  new product("dog-duck", "./images/dog-duck.jpg"),
-  new product("dragon", "./images/dragon.jpg"),
-  new product("pen", "./images/pen.jpg"),
-  new product("pet-sweep", "./images/pet-sweep.jpg"),
-  new product("scissors", "./images/scissors.jpg"),
-  new product("shark", "./images/shark.jpg"),
-  new product("sweep", "./images/sweep.jpg"),
-  new product("tauntaun", "./images/tauntaun.jpg"),
-  new product("unicorn", "./images/unicorn.jpg"),
-  new product("water-can", "./images/water-can.jpg"),
-  new product("wine-glass", "./images/wine-glass.jpg"),
+const duckys = [
+  new product("bag", "./images/lab11-assets-main/Bag.jpg"),
+  new product("banana", "./images/lab11-assets-main/banana.jpg"),
+  new product("bathroom", "./images/lab11-assets-main/bathroom.jpg"),
+  new product("boots", "./images/lab11-assets-main/boots.jpg"),
+  new product("breakfast", "./images/lab11-assets-main/breakfast.jpg"),
+  new product("bubblegum", "./images/lab11-assets-main/bubblegum.jpg"),
+  new product("chair", "./images/lab11-assets-main/chair.jpg"),
+  new product("cthulhu", "./images/lab11-assets-main/cthulhu.jpg"),
+  new product("dog-duck", "./images/lab11-assets-main/dog-duck.jpg"),
+  new product("dragon", "./images/lab11-assets-main/dragon.jpg"),
+  new product("pen", "./images/lab11-assets-main/pen.jpg"),
+  new product("pet-sweep", "./images/lab11-assets-main/pet-sweep.jpg"),
+  new product("scissors", "./images/lab11-assets-main/scissors.jpg"),
+  new product("shark", "./images/lab11-assets-main/shark.jpg"),
+  new product("sweep", "./images/lab11-assets-main/sweep.png"),
+  new product("tauntaun", "./images/lab11-assets-main/tauntaun.jpg"),
+  new product("unicorn", "./images/lab11-assets-main/unicorn.jpg"),
+  new product("water-can", "./images/lab11-assets-main/water-can.jpg"),
+  new product("wine-glass", "./images/lab11-assets-main/wine-glass.jpg"),
 ];
 
+duckysContainer.addEventListener("click", handleduckClick);
 // render the results
 // when the user clicks the view results button
 // render a ul full of lis that tell the user how many tiems each goat has been clicked
 renderduckys();
+
+// function handleimgclick(event) {
+
+//   userClicks++;
+
+//   let clickedProduct = event.target.alt;
+
+//   for (let i = 0; i < products.length; i++)
+//     if (clickProduct === products[1].name)
+//       if (userclicks === maxClicks) {
+//         return;
+//       }
+
+//   image1.addEventListener("click", handleduckClick);
+//   image2.addEventListener("click", handleduckClick);
+//   image3.addEventListener("click", handleduckClick);
+
+// }
+
+function showresults() {
+  const results = document.getElementById("results");
+
+  for (let i = 0; i < duckys.length; i++) {
+    const li = document.createElement("li");
+    const product = duckys[i];
+    li.textContent = `${product.name} was viewd ${product.views} times, and clicked ${product.clicks} times`;
+    results.appendChild(li);
+  }
+}
+renderduckys();
+
+function renderChart() {
+  // get where we are going to put the chart
+  const ctx = document.getElementById("myChart"); // context of the chart
+
+  const labels = [];
+  const views = [];
+  const clicks = [];
+
+  // populate the arrays with data
+  // TODO: ^
+
+  // run the Chart function (that does the chart making)
+  new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: [
+        "bag",
+        "banana",
+        "bathroom",
+        "boots",
+        "breakfast",
+        "bubblegum",
+        "chair",
+        "cthulhu",
+        "dog-duck",
+        "dragon",
+        "pen",
+        "pet-sweep",
+        "scissors",
+        "shark",
+        "sweep",
+        "tauntaun",
+        "unicorn",
+        "water-can",
+        "wine-glass",
+      ],
+
+      datasets: [
+        {
+          label: "# of views",
+          data: views,
+          borderWidth: 1,
+          backgroundColor: [
+            "red",
+            "#cdaa7f",
+            "skyblue",
+            "green",
+            "orange",
+            "grey",
+            "darkblue",
+            "pink",
+            "brown",
+            "yellow",
+            "black",
+            "blue violet",
+          ],
+        },
+        {
+          label: "# of clicks",
+          data: clicks,
+          borderWidth: 1,
+          backgroundColor: [
+            "red",
+            "#cdaa7f",
+            "skyblue",
+            "green",
+            "orange",
+            "grey",
+            "darkblue",
+            "pink",
+            "brown",
+            "yellow",
+            "black",
+            "blue violet",
+          ],
+        },
+      ],
+    },
+  });
+}
+
+const ctx = document.getElementById("myChart");
+const config = new Chart(ctx, {
+  type: "bar",
+  data: {
+    labels: [
+      "bag",
+      "banana",
+      "bathroom",
+      "boots",
+      "breakfast",
+      "bubblegum",
+      "chair",
+      "cthulhu",
+      "dog-duck",
+      "dragon",
+      "pen",
+      "pet-sweep",
+      "scissors",
+      "shark",
+      "sweep",
+      "tauntaun",
+      "unicorn",
+      "water-can",
+      "wine-glass",
+    ],
+    datasets: [
+      {
+        label: "# of votes",
+        data: [5, 10, 3, 9, 8.9],
+        borderWidth: 6,
+        backgroundColor: ["red", "#cdaa7f", "skyblue", "green", "orange"],
+      },
+      {
+        type: "line",
+        label: "# of views",
+        data: [30, 31, 11, 50, 90],
+        borderWidth: 6,
+        backgroundColor: ["red", "#cdaa7f", "skyblue", "green", "orange"],
+      },
+    ],
+  },
+});
