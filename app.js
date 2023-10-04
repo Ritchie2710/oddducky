@@ -7,12 +7,16 @@ let image3 = document.querySelector("section img:nth-child(3)");
 let userClicks = 0;
 let maxClicks = 25;
 
+const duckys = [];
+
 // keep each goat in an object
-function product(name, src) {
+function product(name, views, clicks) {
   this.name = name;
   this.src = src;
-  this.views = 0;
-  this.clicks = 0;
+  this.views = views;
+  this.clicks = clicks;
+
+  duckys.push(this);
 }
 
 // function to choose a random goat
@@ -27,7 +31,11 @@ function renderduckys() {
   let ducks3Index = getRandomIndex();
 
   // prevent the two images being the same oddduckys
-  while (ducks1Index === ducks2Index) {
+  while (
+    ducks1Index === ducks2Index ||
+    ducks1Index === ducks3Index ||
+    ducks2Index === ducks3Index
+  ) {
     ducks2Index = getRandomIndex();
     ducks3Index = getRandomIndex();
   }
@@ -51,7 +59,8 @@ function handleduckClick(event) {
   // check if the user has run out of clicks
   if (userClicks === maxClicks) {
     alert("You have run out of votes");
-    showresults();
+    renderChart();
+    localStorage.setItem("duckys", JSON.stringify(duckys));
     return; // end the function here and don't run the rest
   }
   userClicks++;
@@ -59,12 +68,13 @@ function handleduckClick(event) {
   let clickedducks = event.target.alt;
 
   // check if the click is on an image
-  if (event.target === duckysContainer) {
-    alert("Please click on an image");
-  } else {
-    // render more goats
-    renderduckys();
-  }
+  for (let i = 0; i < products.length; i++)
+    if (event.target === duckysContainer) {
+      alert("Please click on an image");
+    } else {
+      // render more goats
+      renderduckys();
+    }
 
   // increase the clicks of the goat
   // loop through allGoats
@@ -78,53 +88,45 @@ function handleduckClick(event) {
     }
   }
 }
-
-// make the goats
-const duckys = [
-  new product("bag", "./images/lab11-assets-main/Bag.jpg"),
-  new product("banana", "./images/lab11-assets-main/banana.jpg"),
-  new product("bathroom", "./images/lab11-assets-main/bathroom.jpg"),
-  new product("boots", "./images/lab11-assets-main/boots.jpg"),
-  new product("breakfast", "./images/lab11-assets-main/breakfast.jpg"),
-  new product("bubblegum", "./images/lab11-assets-main/bubblegum.jpg"),
-  new product("chair", "./images/lab11-assets-main/chair.jpg"),
-  new product("cthulhu", "./images/lab11-assets-main/cthulhu.jpg"),
-  new product("dog-duck", "./images/lab11-assets-main/dog-duck.jpg"),
-  new product("dragon", "./images/lab11-assets-main/dragon.jpg"),
-  new product("pen", "./images/lab11-assets-main/pen.jpg"),
-  new product("pet-sweep", "./images/lab11-assets-main/pet-sweep.jpg"),
-  new product("scissors", "./images/lab11-assets-main/scissors.jpg"),
-  new product("shark", "./images/lab11-assets-main/shark.jpg"),
-  new product("sweep", "./images/lab11-assets-main/sweep.png"),
-  new product("tauntaun", "./images/lab11-assets-main/tauntaun.jpg"),
-  new product("unicorn", "./images/lab11-assets-main/unicorn.jpg"),
-  new product("water-can", "./images/lab11-assets-main/water-can.jpg"),
-  new product("wine-glass", "./images/lab11-assets-main/wine-glass.jpg"),
-];
+// if there is nothing in locaised storage for the product:
+// instantiate my default products
+if (localStorage.getitem("duckys") === null) {
+  new product("bag", "./images/lab11-assets-main/Bag.jpg", 0, 0),
+    new product("banana", "./images/lab11-assets-main/banana.jpg", 0, 0),
+    new product("bathroom", "./images/lab11-assets-main/bathroom.jpg", 0, 0),
+    new product("boots", "./images/lab11-assets-main/boots.jpg", 0, 0),
+    new product("breakfast", "./images/lab11-assets-main/breakfast.jpg", 0, 0),
+    new product("bubblegum", "./images/lab11-assets-main/bubblegum.jpg", 0, 0),
+    new product("chair", "./images/lab11-assets-main/chair.jpg", 0, 0),
+    new product("cthulhu", "./images/lab11-assets-main/cthulhu.jpg", 0, 0),
+    new product("dog-duck", "./images/lab11-assets-main/dog-duck.jpg", 0, 0),
+    new product("dragon", "./images/lab11-assets-main/dragon.jpg", 0, 0),
+    new product("pen", "./images/lab11-assets-main/pen.jpg", 0, 0),
+    new product("pet-sweep", "./images/lab11-assets-main/pet-sweep.jpg", 0, 0),
+    new product("scissors", "./images/lab11-assets-main/scissors.jpg", 0, 0),
+    new product("shark", "./images/lab11-assets-main/shark.jpg", 0, 0),
+    new product("sweep", "./images/lab11-assets-main/sweep.png", 0, 0),
+    new product("tauntaun", "./images/lab11-assets-main/tauntaun.jpg", 0, 0),
+    new product("unicorn", "./images/lab11-assets-main/unicorn.jpg", 0, 0),
+    new product("water-can", "./images/lab11-assets-main/water-can.jpg", 0, 0),
+    new product(
+      "wine-glass",
+      "./images/lab11-assets-main/wine-glass.jpg",
+      0,
+      0
+    );
+} else {
+  const productsLS = JSON.parselocalstorage.getitem("duckys");
+  for (let i = 0; i < productsLS.length; i++) {
+    new product(productsLS[i].nam.productsLS[i].views.productsLS[i].clicks);
+  }
+}
 
 duckysContainer.addEventListener("click", handleduckClick);
 // render the results
 // when the user clicks the view results button
 // render a ul full of lis that tell the user how many tiems each goat has been clicked
 renderduckys();
-
-// function handleimgclick(event) {
-
-//   userClicks++;
-
-//   let clickedProduct = event.target.alt;
-
-//   for (let i = 0; i < products.length; i++)
-//     if (clickProduct === products[1].name)
-//       if (userclicks === maxClicks) {
-//         return;
-//       }
-
-//   image1.addEventListener("click", handleduckClick);
-//   image2.addEventListener("click", handleduckClick);
-//   image3.addEventListener("click", handleduckClick);
-
-// }
 
 function showresults() {
   const results = document.getElementById("results");
@@ -146,118 +148,30 @@ function renderChart() {
   const views = [];
   const clicks = [];
 
-  // populate the arrays with data
-  // TODO: ^
+  // loop through
+  for (let i = 0; i < duckys.length; i++) {
+    labels.push(duckys[i].name);
+    views.push(duckys[i].views);
+    clicks.push(duckys[i].clicks);
+  }
 
-  // run the Chart function (that does the chart making)
   new Chart(ctx, {
     type: "bar",
     data: {
-      labels: [
-        "bag",
-        "banana",
-        "bathroom",
-        "boots",
-        "breakfast",
-        "bubblegum",
-        "chair",
-        "cthulhu",
-        "dog-duck",
-        "dragon",
-        "pen",
-        "pet-sweep",
-        "scissors",
-        "shark",
-        "sweep",
-        "tauntaun",
-        "unicorn",
-        "water-can",
-        "wine-glass",
-      ],
-
+      labels: labels,
       datasets: [
         {
           label: "# of views",
           data: views,
           borderWidth: 1,
-          backgroundColor: [
-            "red",
-            "#cdaa7f",
-            "skyblue",
-            "green",
-            "orange",
-            "grey",
-            "darkblue",
-            "pink",
-            "brown",
-            "yellow",
-            "black",
-            "blue violet",
-          ],
         },
         {
+          type: "line",
           label: "# of clicks",
           data: clicks,
           borderWidth: 1,
-          backgroundColor: [
-            "red",
-            "#cdaa7f",
-            "skyblue",
-            "green",
-            "orange",
-            "grey",
-            "darkblue",
-            "pink",
-            "brown",
-            "yellow",
-            "black",
-            "blue violet",
-          ],
         },
       ],
     },
   });
 }
-
-const ctx = document.getElementById("myChart");
-const config = new Chart(ctx, {
-  type: "bar",
-  data: {
-    labels: [
-      "bag",
-      "banana",
-      "bathroom",
-      "boots",
-      "breakfast",
-      "bubblegum",
-      "chair",
-      "cthulhu",
-      "dog-duck",
-      "dragon",
-      "pen",
-      "pet-sweep",
-      "scissors",
-      "shark",
-      "sweep",
-      "tauntaun",
-      "unicorn",
-      "water-can",
-      "wine-glass",
-    ],
-    datasets: [
-      {
-        label: "# of votes",
-        data: [5, 10, 3, 9, 8.9],
-        borderWidth: 6,
-        backgroundColor: ["red", "#cdaa7f", "skyblue", "green", "orange"],
-      },
-      {
-        type: "line",
-        label: "# of views",
-        data: [30, 31, 11, 50, 90],
-        borderWidth: 6,
-        backgroundColor: ["red", "#cdaa7f", "skyblue", "green", "orange"],
-      },
-    ],
-  },
-});
