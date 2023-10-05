@@ -10,7 +10,7 @@ let maxClicks = 25;
 const duckys = [];
 
 // keep each goat in an object
-function product(name, views, clicks) {
+function product(name, src, views, clicks) {
   this.name = name;
   this.src = src;
   this.views = views;
@@ -68,7 +68,7 @@ function handleduckClick(event) {
   let clickedducks = event.target.alt;
 
   // check if the click is on an image
-  for (let i = 0; i < products.length; i++)
+  for (let i = 0; i < duckys.length; i++)
     if (event.target === duckysContainer) {
       alert("Please click on an image");
     } else {
@@ -90,7 +90,7 @@ function handleduckClick(event) {
 }
 // if there is nothing in locaised storage for the product:
 // instantiate my default products
-if (localStorage.getitem("duckys") === null) {
+if (localStorage.getItem("duckys") === null) {
   new product("bag", "./images/lab11-assets-main/Bag.jpg", 0, 0),
     new product("banana", "./images/lab11-assets-main/banana.jpg", 0, 0),
     new product("bathroom", "./images/lab11-assets-main/bathroom.jpg", 0, 0),
@@ -116,9 +116,14 @@ if (localStorage.getitem("duckys") === null) {
       0
     );
 } else {
-  const productsLS = JSON.parselocalstorage.getitem("duckys");
+  const productsLS = JSON.parse(localStorage.getItem("duckys"));
   for (let i = 0; i < productsLS.length; i++) {
-    new product(productsLS[i].nam.productsLS[i].views.productsLS[i].clicks);
+    new product(
+      productsLS[i].name,
+      productsLS[i].src,
+      productsLS[i].views,
+      productsLS[i].clicks
+    );
   }
 }
 
